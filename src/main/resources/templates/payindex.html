@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>支付页面</title>
+
+        <meta name="description" content="">
+        <meta name="msapplication-tap-highlight" content="yes" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <link href='http://fonts.googleapis.com/css?family=Cabin:400,400italic,500,600,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700,800&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/custom.css">
+        <script th:src="@{js/jquery-2.1.0.min.js}"></script>
+        <script th:src="@{js/modernizr-2.6.2.min.js}"></script>
+
+    <link href="css/public.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <script type="text/javascript" th:src="@{js/jquery_cart.js}"></script>
+    <link rel="stylesheet" type="text/css" href="css/checkOut.css" />
+</head>
+
+<body class="no-intro fixed-footer yo-anim-enabled">
+<nav id="main-navbar" class="hidden-xs hidden-sm">
+    <div class="nav hidden-xs">
+        <div class="main-reorder pull-right">
+            <a href="#">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+        <div class="logo pull-left">
+            <a href="/indexPage">
+                <figure>
+                    <img th:src="@{img/logo1.png}" class="light-logo" alt="Berg HTML Theme"/>
+                    <img th:src="@{img/logo2.png}" class="dark-logo" alt="Berg HTML Theme"/>
+                </figure>
+            </a>
+        </div>
+        <div class="main-nav">
+            <ul class="pull-right">
+                <li>
+                    <a href="/indexPage" class="">首页</a>
+                </li>
+                <li>
+                    <a href="/shopPage" class="">商城</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section id="product" class="section-scroll main-section menu shop">
+
+    <ul class="list-category">
+        <li>
+            <a href="/shopPage#mix"><span>全部商品</span></a>
+        </li>
+        <li>
+            <a href="/shopPage#category-1"><span>办公</span></a>
+        </li>
+        <li>
+            <a href="/shopPage#category-2"><span>家居</span></a>
+        </li>
+        <li>
+            <a href="/shopPage#category-3"><span>旅行</span></a>
+        </li>
+        <li>
+            <a href="/shopPage#category-4"><span>数码</span></a>
+        </li>
+        <li>
+            <a href="/shopPage#category-5"><span>娱乐</span></a>
+        </li>
+        <li class="shop-list">
+            <ul>
+                <li class="shopping">
+                    <a href="/loginPage" th:if="${#strings.isEmpty(session.name)}">登录</a>
+                    <a href="/customcenterPage" th:if="${!#strings.isEmpty(session.name)}" th:text="${session.name}"></a>
+                </li>
+
+                <li class="shopping" th:if="${!#strings.isEmpty(session.name)}">
+                    <a href="/showOrders">订单信息</a>
+                </li>
+
+                <!--<li class="shopping" th:if="${#strings.isEmpty(session.name)}">-->
+                    <!--<a href="/shopcarPage" class="cart">购物车</a>-->
+                <!--</li>-->
+
+                <!--<li class="shopping-cart" th:if="${!#strings.isEmpty(session.name)}">-->
+                    <!--<a href="/cartPage" class="cart" >购物车</a>-->
+
+
+                    <!--<ul class="show-cart">-->
+                        <!--<li class="product" th:each="car:${carList}">-->
+                            <!--<a href="product.html" class="img-product">-->
+                                <!--<figure><img th:src="@{/img/}+${car.pimg}" alt=""/></figure>-->
+                            <!--</a>-->
+                            <!--<div class="list-product" >-->
+                                <!--<a th:href="@{/productPage/}+${car.pid}" th:text="${car.pname}"></a>-->
+                                <!--<div class="quantity" th:text="${car.pnum}"></div>-->
+                                <!--<div class="price-product" th:text="${car.pprice}"></div>-->
+                                <!--<div class="remove-product"><i class="icon-close"></i></div>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class="summation">-->
+                            <!--&lt;!&ndash;<div class="summation-subtotal">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span>subtotal:</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span class="amount">$87.10</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--<div class="btn-cart">-->
+                                <!--<button class="btn btn-default"><a href="/carList">查看购物车</a></button>-->
+                                <!--<button class="btn btn-dark"><a href="/pay">结算</a></button>-->
+                            <!--</div>-->
+                        <!--</li>-->
+
+                    <!--</ul>-->
+                <!--</li>-->
+
+
+            </ul>
+        </li>
+    </ul>
+
+    <div class="banner_red_top"></div>
+
+    <!--收货地址body部分开始-->
+    <div class="border_top_cart">
+        <script type="text/javascript">
+            var checkoutConfig={
+                addressMatch:'common',
+                addressMatchVarName:'data',
+                hasPresales:false,
+                hasBigTv:false,
+                hasAir:false,
+                hasScales:false,
+                hasGiftcard:false,
+                totalPrice:244.00,
+                postage:10,//运费
+                postFree:true,//活动是否免邮了
+                bcPrice:150,//计算界值
+                activityDiscountMoney:0.00,//活动优惠
+                showCouponBox:0,
+                invoice:{
+                    NA:"0",
+                    personal:"1",
+                    company:"2",
+                    electronic:"4"
+                }
+            };
+            var miniCartDisable=true;
+        </script>
+        <div class="container">
+            <div >
+                <form action="/successIndex" method="post">
+                    <div >
+                        <!-- 地址状态 0：默认选择；1：新增地址；2：修改地址 -->
+                        <!--<input type="hidden" name="Checkout[addressState]" id="addrState"   value="0">-->
+                        <!-- 收货地址 -->
+                        <div class="xm-box">
+                            <div class="box-hd ">
+                                <span class="title">收货地址</span>
+                            </div>
+                            <div class="box-bd">
+                                <div class="clearfix xm-address-list" >
+                                    <div class="item">
+                                        <select  name="adressid">
+                                            <option th:each="adress:${adressList}" th:value="${adress.adressid}">[[${adress.iname}]] | [[${adress.shphone}]] | [[${adress.address}]]</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="item use-new-addr"  data-state="off">
+                                        <a href="/customAdressPage">前往个人中心新增地址</a>
+                                    </div>
+                                </div>
+                                <!--点击弹出新增/收货地址界面end-->
+                                <div class="xm-edit-addr-backdrop" id="J_editAddrBackdrop"></div>
+                            </div>
+                        </div>
+                        <!-- 收货地址 END-->
+                        <div id="checkoutPayment">
+                            <!-- 支付方式 -->
+                            <div class="xm-box">
+                                <div class="box-hd ">
+                                    <span class="title">支付方式</span>
+                                </div>
+                                <div class="box-bd">
+                                    <ul id="checkoutPaymentList" class="checkout-option-list clearfix J_optionList">
+                                        <li class="item selected" style="width:188px;">
+                                            <input type="radio" name="Checkout[pay_id]" checked="checked" value="1">
+                                            <p>
+                                                在线支付<span></span>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- 支付方式 END-->
+                            <div class="xm-box">
+                                <div class="box-hd ">
+                                    <span class="title">配送方式</span>
+                                </div>
+                                <div class="box-bd">
+                                    <ul id="checkoutShipmentList" class="checkout-option-list clearfix J_optionList">
+                                        <li class="item selected">
+                                            <input type="radio" data-price="0" name="Checkout[shipment_id]" checked="checked" value="1">
+                                            <p>
+                                                快递配送（免运费）<span></span>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- 配送方式 END-->
+                        </div>
+                        <!-- 送货时间 -->
+                        <div class="xm-box">
+                            <div class="box-hd">
+                                <span class="title">送货时间</span>
+                            </div>
+                            <div class="box-bd">
+                                <ul class="checkout-option-list clearfix J_optionList">
+                                    <li class="item selected" style="width:188px;><input type="radio checked="checked" name="Checkout[best_time]" value="1"><p>不限送货时间<span>周一至周日</span></p></li>
+                                    <li class="item" style="width:188px;><input type="radio  name="Checkout[best_time]" value="2"><p>工作日送货<span>周一至周五</span></p></li>
+                                    <li class="item" style="width:188px;><input type="radio  name="Checkout[best_time]" value="3"><p>双休日、假日送货<span>周六至周日</span></p></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 送货时间 END-->
+
+                        <!-- 发票信息 -->
+                        <div id="checkoutInvoice">
+                            <div class="xm-box">
+                                <div class="box-hd">
+                                    <span class="title">发票信息</span>
+                                </div>
+                                <div class="box-bd">
+                                    <ul class="checkout-option-list checkout-option-invoice clearfix J_optionList J_optionInvoice">
+                                        <li class="hide">
+                                            电子个人发票4
+                                        </li>
+                                        <li class="item selected">
+                                            <!--<label><input type="radio"  class="needInvoice" value="0" name="Checkout[invoice]">不开发票</label>-->
+                                            <input type="radio"    checked="checked"  value="4" name="Checkout[invoice]">
+                                            <p>电子发票（非纸质）</p>
+                                        </li>
+                                        <li class="item" style="width:188px;>
+                                            <input type="radio  value="1" name="Checkout[invoice]">
+                                            <p>普通发票（纸质）</p>
+                                        </li>
+                                    </ul>
+                                    <p id="eInvoiceTip" class="e-invoice-tip ">
+                                        电子发票是税务局认可的有效凭证，可作为售后维权凭据，不随商品寄送。开票后不可更换纸质发票，如需报销请选择普通发票。<a href="http://bbs.xiaomi.cn/thread-9285999-1-1.html" target="_blank">什么是电子发票？</a>
+                                    </p>
+                                    <div class="invoice-info nvoice-info-1" id="checkoutInvoiceElectronic" style="display:none;">
+                                        <p class="tip">电子发票目前仅对个人用户开具，不可用于单位报销 ，不随商品寄送</p>
+                                        <p>发票内容：购买商品明细</p>
+                                        <p>发票抬头：个人</p>
+                                        <p>
+                                            <span class="hide"><input type="radio" value="4" name="Checkout[invoice_type]"   checked="checked"   id="electronicPersonal" class="invoiceType"></span>
+                                        <dl>
+                                            <dt>什么是电子发票?</dt>
+                                            <dd>&#903; 电子发票是纸质发票的映像，是税务局认可的有效凭证，与传统纸质发票具有同等法律效力，可作为售后维权凭据。</dd>
+                                            <dd>&#903; 开具电子服务于个人，开票后不可更换纸质发票，不可用于单位报销。</dd>
+                                            <dd>&#903; 您在订单详情的"发票信息"栏可查看、下载您的电子发票。<a href="http://bbs.xiaomi.cn/thread-9285999-1-1.html" target="_blank">什么是电子发票？</a></dd>
+                                        </dl>
+                                        </p>
+                                    </div>
+                                    <div class="invoice-info invoice-info-2" id="checkoutInvoiceDetail"  style="display:none;" >
+                                        <p>发票内容：购买商品明细</p>
+                                        <p>
+                                            发票抬头：请确认单位名称正确,以免因名称错误耽搁您的报销。注：合约机话费仅能开个人发票
+                                        </p>
+                                        <ul class="type clearfix J_invoiceType">
+                                            <li class="hide">
+                                                <input type="radio" value="0" name="Checkout[invoice_type]" id="noNeedInvoice" >
+                                            </li>
+                                            <li class="">
+                                                <input  class="invoiceType" type="radio" id="commonPersonal" name="Checkout[invoice_type]" value="1" >
+                                                个人
+                                            </li>
+                                            <li class="">
+                                                <input  class="invoiceType" type="radio" name="Checkout[invoice_type]" value="2" >
+                                                单位
+                                            </li>
+                                        </ul>
+                                        <div  id='CheckoutInvoiceTitle' class=" hide  invoice-title">
+                                            <label for="Checkout[invoice_title]">单位名称：</label>
+                                            <input id="Checkout[invoice_title]" name="Checkout[invoice_title]" type="text" maxlength="49" value="" class="input"> <span class="tip-msg J_tipMsg"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 发票信息 END-->
+                    </div>
+
+
+                    <div class="checkout-box-ft">
+                        <!-- 商品清单 -->
+                        <div id="checkoutGoodsList" class="checkout-goods-box">
+                            <div class="xm-box">
+                                <div class="box-hd">
+                                    <span class="title">确认订单信息</span>
+                                </div>
+                                <div class="box-bd">
+                                    <dl class="checkout-goods-list">
+                                        <dt class="clearfix">
+                                            <span class="col col-1">商品名称</span>
+                                            <span class="col col-2">购买价格</span>
+                                            <span class="col col-3">购买数量</span>
+                                            <span class="col col-4">小计（元）</span>
+                                        </dt>
+                                        <dd class="item clearfix">
+                                            <div class="item-row" th:each="cart:${carList}">
+                                                <div class="col col-1">
+                                                    <div class="g-pic">
+                                                        <img th:src="@{img/}+${cart.pimg}"  width="40" height="40" />
+                                                    </div>
+                                                    <div class="g-info">
+                                                        <a th:href="@{/productPage/}+${cart.pid}" th:text="${cart.pname}">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-2" th:text="${cart.pprice}"></div>
+                                                <div class="col col-3" th:text="${cart.pnum}"></div>
+                                                <div class="col col-4" th:text="(${cart.pprice})*(${cart.pnum})"></div>
+                                            </div>
+                                        </dd>
+                                        <!--<dd class="item clearfix">-->
+                                            <!--<div class="item-row">-->
+                                                <!--<div class="col col-1">-->
+                                                    <!--<div class="g-pic">-->
+                                                        <!--<img src="http://i1.mifile.cn/a1/T14BLvBKJT1RXrhCrK!40x40.jpg" srcset="http://i1.mifile.cn/a1/T14BLvBKJT1RXrhCrK!80x80.jpg 2x" width="40" height="40" />-->
+                                                    <!--</div>-->
+                                                    <!--<div class="g-info">-->
+                                                        <!--<a href="#">-->
+                                                            <!--招财猫米兔 白色-->
+                                                        <!--</a>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col col-2">49元</div>-->
+                                                <!--<div class="col col-3">1</div>-->
+                                                <!--<div class="col col-4">49元</div>-->
+                                            <!--</div>-->
+                                        <!--</dd>-->
+                                        <!--<dd class="item clearfix">-->
+                                            <!--<div class="item-row">-->
+                                                <!--<div class="col col-1">-->
+                                                    <!--<div class="g-pic">-->
+                                                        <!--<img src="http://i1.mifile.cn/a1/T1rrDgB4DT1RXrhCrK!40x40.jpg" srcset="http://i1.mifile.cn/a1/T1rrDgB4DT1RXrhCrK!80x80.jpg 2x" width="40" height="40" />-->
+                                                    <!--</div>-->
+                                                    <!--<div class="g-info">-->
+                                                        <!--<a href="#">-->
+                                                            <!--小米圆领纯色T恤 男款 红色 XXL-->
+                                                        <!--</a>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col col-2">39元</div>-->
+                                                <!--<div class="col col-3">4</div>-->
+                                                <!--<div class="col col-4">156元</div>-->
+                                            <!--</div>-->
+                                        <!--</dd>-->
+                                    </dl>
+                                    <div class="checkout-count clearfix">
+                                        <!-- checkout-count-extend -->
+                                        <div class="checkout-price">
+                                            <ul>
+                                                <li>
+                                                    订单总额：<span th:text="${money}"></span>
+                                                    <input type="text" th:value="${money}" name="totalMoney" hidden="hidden"/>
+                                                </li>
+                                                <li>
+                                                    活动优惠：<span>-0元</span>
+                                                    <!--<script type="text/javascript">-->
+                                                        <!--checkoutConfig.activityDiscountMoney=0;-->
+                                                        <!--checkoutConfig.totalPrice=244.00;-->
+                                                    <!--</script>-->
+                                                </li>
+                                                <li>
+                                                    优惠券抵扣：<span id="couponDesc">-0元</span>
+                                                </li>
+                                                <li>
+                                                    运费：<span id="postageDesc">0元</span>
+                                                </li>
+                                            </ul>
+                                            <p class="checkout-total">应付总额：<span th:text="${money}"><strong id="totalPrice" th:text="${money}"></strong>元</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--S 加价购 产品选择弹框 -->
+                            <div class="modal hide modal-choose-pro" id="J_choosePro-664">
+                                <div class="modal-header">
+                                    <span class="close" data-dismiss='modal'><i class="iconfont">&#xe617;</i></span>
+                                    <h3>选择产品</h3>
+                                    <div class="more">
+                                        <div class="xm-recommend-page clearfix">
+                                            <a class="page-btn-prev   J_carouselPrev iconfont" href="javascript: void(0);">&#xe604;</a><a class="page-btn-next  J_carouselNext iconfont" href="javascript: void(0);">&#xe605;</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-body J_chooseProCarousel">
+                                    <div class="J_carouselWrap modal-choose-pro-list-wrap">
+                                        <ul class="clearfix J_carouselList">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-disabled J_chooseProBtn">加入购物车</a>
+                                </div>
+                            </div>
+                            <!--E 加价购 产品选择弹框 -->
+                            <!--S 保障计划 产品选择弹框 -->
+                        </div>
+                        <!-- 商品清单 END -->
+                        <input type="hidden"  id="couponType" >
+                        <input type="hidden" id="couponValue" >
+                        <div class="checkout-confirm">
+                            <a href="#" class="btn btn-lineDakeLight btn-back-cart">返回购物车</a>
+                            <input type="submit" class="btn btn-primary" value="立即下单"  />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="js/base.min.js"></script>
+        <script type="text/javascript" src="js/address_all.js"></script>
+        <script type="text/javascript" src="js/checkout.min.js"></script>
+    </div>
+    <!--收货地址body部分结束-->
+</section>
+
+<div id="footer-spacer"></div>
+<footer id="footer" class="text-center">
+
+    <a href="#" class="to-the-top">
+        <i class="fa fa-arrow-circle-o-up"></i>
+    </a>
+
+    <h2>为你所想</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center v-card">
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="open-daily">
+                        <span class="day">周一 -- 周四</span>
+                        <span class="hours">7.00 -- 21.00</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="open-daily">
+                        <span class="day">周五 -- 周日</span>
+                        <span class="hours">7.00 -- 23.00</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="simple-contact">
+                        <span class="address">山西省太原市榆次区</span>
+                        <span class="postal-code">蓝桥软件实验室</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="simple-contact">
+                        <span class="mobile"><a href="#">+48 889 889 889</a></span>
+                        <span class="email"><a href="#">restaurant@berg.com</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="social-icon clearfix">
+        <li>
+            <a href="#"><i class="fa fa-facebook"></i></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-pinterest"></i></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-google-plus"></i></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+        </li>
+    </ul>
+
+
+    <p class="copyrights">© 2019 <a href="index">为你所想</a>. All Rights Reserved. </p>
+</footer>
+
+
+<div class="gallery-wrapper"></div>
+<div id="preloader">
+    <div id="status">
+        <div class="loading-wrapper">
+            <img th:src="@{img/logo2.png}" alt="Loading"/>
+        </div>
+    </div>
+    <div id="status-loaded"></div>
+</div>
+
+        <script th:src="@{js/browser.js}"></script>
+        <script th:src="@{js/jquery.ba-throttle-debounce.min.js}"></script>
+        <script th:src="@{js/jquery.smooth-scroll.js}"></script>
+        <script th:src="@{js/matchmedia.js}"></script>
+        <script th:src="@{js/enquire.min.js}"></script>
+        <script th:src="@{js/jquery.velocity.min.js}"></script>
+        <script th:src="@{js/waypoints.js}"></script>
+        <script th:src="@{js/owl.carousel.js}"></script>
+        <script th:src="@{js/jquery.mb.YTPlayer.js}"></script>
+        <script th:src="@{js/jquery.parallaxify.js}"></script>
+        <script th:src="@{js/jquery.imagesloaded.js}"></script>
+        <script th:src="@{js/jquery.unveil.min.js}"></script>
+        <script th:src="@{js/jquery.superslides.min.js}"></script>
+        <script th:src="@{js/jquery.fullPage.min.js}"></script>
+        <script th:src="@{js/jquery.mixitup.js}"></script>
+        <script th:src="@{js/main.js}"></script>
+
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="js/unslider.min.js" type="text/javascript"></script>
+    <!--<script th:src="@{js/index.js}" type="text/javascript"></script>-->
+
+
+
+
+
+</body>
+</html>

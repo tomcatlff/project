@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>购物车</title>
+		<meta name="description" content="">
+		<meta name="msapplication-tap-highlight" content="yes" />
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+		<link href='http://fonts.googleapis.com/css?family=Cabin:400,400italic,500,600,700' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700,800&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<!--		 Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<link rel="stylesheet" href="css/custom.css">
+		<script th:src="@{/js/jquery-2.1.0.min.js}"></script>
+		<script th:src="@{/js/modernizr-2.6.2.min.js}"></script>
+		<script type="text/javascript">
+
+            function load() {
+                $(function () {
+                    $(".add").click(function () {
+                        alert(aaaa)
+                        var num = $(this).parent().children('input').val();
+                        num++;
+                        $(this).parent().children('input').val(num);
+                        var pid = $("#pid").val();
+                        alert(pid);
+
+                    })
+                    })
+                    $(".reduce").click(function () {
+                        var num = $(this).parent().children('input').val();
+                        if (num > 1) {
+                            num--;
+                        }
+                        $(this).parent().children('input').val(num);
+                        totalMoney()
+                    })
+
+
+                }
+
+            //     function totalMoney() {
+            //         var tb = document.getElementById("tableId");    //获取table对像
+            //         var rows = tb.rows;
+            //         var amount=0;
+            //         var totalMoney = 0;
+            //         for (var i = 1; i < rows.length; i++) {    //--循环所有的行
+            //             var cells = rows[i].cells;
+            //             var price = cells[2].innerHTML;
+            //              alert(price)
+            //             var num = cells[3].getElementsByTagName("input")[0].value;
+            //           alert(num)
+			// 			amount = price * num;
+            //           alert(amount)
+            //             totalMoney += price * num;
+            //             // alert(totalMoney)
+            //         }
+            //         $("#amount").val(amount.toFixed(2));
+            //         $("#totalMoney").val(totalMoney.toFixed(2));
+            //     }
+            // window.onload = load;
+		</script>
+		
+
+    </head>
+    <body class="intro-top fixed-footer yo-anim-enabled">
+
+		<!--content-->
+
+
+<nav id="main-navbar" class="hidden-xs hidden-sm">
+	<div class="nav hidden-xs">
+		<div class="main-reorder pull-right">
+			<a href="#">
+				<i class="fa fa-bars"></i>
+			</a>
+		</div>
+
+		<div class="logo pull-left">
+			<a href="index.html">
+				<figure>
+					<img th:src="@{img/logo1.png}" class="light-logo" alt="Berg HTML Theme"/>
+					<img th:src="@{img/logo2.png}" class="dark-logo" alt="Berg HTML Theme"/>
+				</figure>
+			</a>
+		</div>
+		<div class="main-nav">
+			<ul class="pull-right">
+				<li>
+					<a href="/indexPage" class="    ">首页</a>
+				</li>
+				<li>
+					<a href="/shopPage" class="">商店</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<div id="mobile-nav" class="visible-xs visible-sm">
+	<header>
+		<div class="container-fluid">
+			<ul class="menu-header">
+				<li class="pull-left">
+					<a href="/indexPage" class="logo">
+						<figure>
+							<img th:src="@{img/logo2.png}" alt="Berg HTML Theme"/>
+						</figure>
+					</a>
+				</li>
+				<li class="reorder pull-right"><a href="#" title=""><i class="fa fa-bars"></i></a></li>
+			</ul>
+		</div>
+	</header>	
+	<div class="" id="flyout-container">
+		<ul id="mobile-navbar" class="nav flyout-menu main-nav nav-height">
+			<li class="nav-item">
+				<a title="" href="/indexPage">首页</a>
+			</li>
+			<li class="nav-item">
+				<a title="" href="/shopPage">商店</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+<div class="section-intro section-intro-parallax">
+	<div class="bg-section">
+		<img th:src="@{img/bg02.png}" alt="">
+	</div>
+
+</div>
+<div class="section-space"></div>
+
+<section id="cart" class="section-scroll main-section shop">
+	
+	<ul class="list-category">
+		<li>
+			<span class="filter" data-filter="all"><a href="/shopPage">全部商品</a></span>
+		</li>
+		<li>
+			<span class="filter" data-filter=".category-1"><a href="/shopPage">办公</a></span>
+		</li>
+		<li>
+			<span class="filter" data-filter=".category-2"><a href="/shopPage">家居</a></span>
+		</li>
+		<li>
+			<span class="filter" data-filter=".category-3"><a href="/shopPage">旅行</a></span>
+		</li>
+		<li>
+			<span class="filter" data-filter=".category-4"><a href="/shopPage">数码</a></span>
+		</li>
+		<li>
+			<span class="filter" data-filter=".category-5"><a href="/shopPage">娱乐</a></span>
+		</li>
+		<li class="shop-list">
+			<ul>
+
+				<li class="shopping">
+					<a href="/loginPage" th:if="${#strings.isEmpty(session.name)}">登录</a>
+					<a href="/customcenterPage" th:if="${!#strings.isEmpty(session.name)}" th:text="${session.name}"></a>
+				</li>
+
+				<li class="shopping" th:if="${!#strings.isEmpty(session.name)}">
+					<a href="/showOrders">订单信息</a>
+				</li>
+
+
+				<li class="shopping-cart">
+	<a href="/cartList" class="cart">购物车</a>
+	<ul class="show-cart">
+			<li class="product" th:each="car:${carList}">
+				<a href="product.html" class="img-product">
+					<figure><img th:src="@{/img/}+${car.pimg}" alt=""/></figure>
+				</a>
+				<div class="list-product" >
+					<a th:href="@{/productPage/}+${car.pid}" th:text="${car.pname}"></a>
+					<div class="quantity" th:text="${car.pnum}"></div>
+					<div class="price-product" th:text="${car.pprice}"></div>
+					<div class="remove-product"><i class="icon-close"></i></div>
+				</div>
+			</li>
+		<li class="summation">
+			<!--<div class="summation-subtotal">-->
+				<!--<span>subtotal:</span>-->
+				<!--<span class="amount">$87.10</span>-->
+			<!--</div>-->
+			<div class="btn-cart">
+				<button class="btn btn-default"><a href="/carList">查看购物车</a></button>
+				<button class="btn btn-dark"><a href="/pay">结算</a></button>
+			</div>
+		</li>
+		
+	</ul>
+</li>
+			</ul>
+		</li>
+	</ul> 
+	<header class="section-header">
+		<h2>购物车</h2>
+	</header>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="cart-products">
+				<div class="container">
+					<div class="row cart-header">
+						<div class="col-xs-4 col-sm-5">
+							<h5 class="product-name">商品价格</h5>
+						</div>
+						<div class="col-xs-2">
+							<h5 class="product-price">单价</h5>
+						</div>
+						<div class="col-xs-2">
+							<h5 class="product-quantity">数量</h5>
+						</div>
+						<div class="col-xs-2">
+							<h5 class="product-subtotal">总价</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<table id="tableId">
+				<div class="row cart-item" th:each="cart:${carList}">
+					<div class="col-xs-4 col-sm-5 product-name">
+						<a th:href="@{/productPage/}+${cart.pid}" class="product-thumbnail"><img th:src="@{img/}+${cart.pimg}" class="" alt=""></a>
+						<a th:href="@{/productPage/}+${cart.pid}" class="name" th:text="${cart.pname}"></a>
+						<span>Size: M</span>
+						<span>Color: Red</span>
+					</div>
+					<div class="col-xs-2 product-position product-price">
+						<span class="amount" th:text="${cart.pprice}"></span>
+					</div>
+					<div class="col-xs-2 product-position product-quantity">
+						<div class="quantity">
+							<input type="text" step="1"  th:value="${cart.pnum}" title="Qty" class="input-text qty text" size="4">
+							<button type="button" value="+" class="plus hidden-xs add" ><a th:href="@{/updateCar/}+${cart.cartid}">+</a></button>
+							<button type="button" value="-" class="minus hidden-xs reduce" ><a th:href="@{/updateCars/}+${cart.cartid}">-</a></button>
+						</div>
+					</div>
+					<div class="col-xs-2 product-position product-subtotal">
+						<span class="amount" id="amount" th:text="(${cart.pnum})*(${cart.pprice})"></span>
+					</div>
+					<div class="col-xs-1 product-position product-remove">
+						<a th:href="@{/deleteCar/}+${cart.cartid}" class="remove" data-djax-exclude="true" title="Remove this item"><i class="icon-close"></i></a>
+					</div>
+				</div>
+			</table>
+				<div class="row cart-subtotal">
+					<div class="col-xs-2 col-xs-offset-6 col-sm-offset-7 subtotal-txt">
+						<span>总计:[[${money}]]</span>
+					</div>
+					<div class="col-xs-2 subtotal">
+						<span class="amount"></span>
+					</div>
+				</div>
+				<div class="row cart-buttons">
+					<div class="col-xs-12">
+						<a href="/shopPage" class="btn btn-dark  continue-shopping">返回浏览</a>
+						<div class="product-btn">
+							<a href="/deleteAll" class="btn btn-default ">清空购物车</a>
+							<a href="/cartPage" class="btn btn-default  ">刷新购物车</a>
+						</div>
+					</div>
+				</div>
+				<div class="row cart-buttons">
+					<div class="col-xs-12">
+						<div class="product-btn"> 
+							<a href="/pay" class="btn btn-color  ">结算</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</section>
+
+<div id="footer-spacer"></div>
+<footer id="footer" class="text-center">
+
+	<a href="#" class="to-the-top">
+		<i class="fa fa-arrow-circle-o-up"></i>
+	</a>
+
+	<h2>为你所想</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-center v-card">
+
+					<div class="col-sm-6 col-lg-3">
+						<div class="open-daily">
+							<span class="day">周一 -- 周四</span>
+							<span class="hours">7.00 -- 21.00</span>
+						</div>
+					</div>
+					<div class="col-sm-6 col-lg-3">	
+						<div class="open-daily">
+							<span class="day">周五 -- 周日</span>
+							<span class="hours">7.00 -- 23.00</span>
+						</div>
+					</div>	
+					<div class="col-sm-6 col-lg-3">	
+						<div class="simple-contact">
+							<span class="address">山西省太原市榆次区</span>
+							<span class="postal-code">蓝桥软件实验室</span>
+						</div>
+					</div>	
+					<div class="col-sm-6 col-lg-3">	
+						<div class="simple-contact">
+							<span class="mobile"><a href="#">+48 889 889 889</a></span>
+							<span class="email"><a href="#">restaurant@berg.com</a></span>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+			<ul class="social-icon clearfix">
+				<li>
+					<a href="#"><i class="fa fa-facebook"></i></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-twitter"></i></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-pinterest"></i></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-google-plus"></i></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-instagram"></i></a>
+				</li>
+			</ul>
+
+
+	<p class="copyrights">© 2019 <a href="index">为你所想</a>. All Rights Reserved. </p>
+</footer>
+		<div class="gallery-wrapper"></div>
+
+		<div id="preloader">
+			<div id="status">
+				<div class="loading-wrapper">
+					<img th:src="@{img/logo2.png}" alt="Loading"/>
+				</div>
+			</div>
+			<div id="status-loaded"></div>
+		</div>
+
+		<script th:src="@{/js/browser.js}"></script>
+		<script th:src="@{/js/jquery.ba-throttle-debounce.min.js}"></script>
+		<script th:src="@{/js/jquery.smooth-scroll.js}"></script>
+		<script th:src="@{/js/matchmedia.js}"></script>
+		<script th:src="@{/js/enquire.min.js}"></script>
+		<script th:src="@{/js/jquery.velocity.min.js}"></script>
+		<script th:src="@{/js/waypoints.js}"></script>
+		<script th:src="@{/js/owl.carousel.js}"></script>
+		<script th:src="@{/js/jquery.mb.YTPlayer.js}"></script>
+		<script th:src="@{/js/jquery.parallaxify.js}"></script>
+		<script th:src="@{/js/jquery.imagesloaded.js}"></script>
+		<script th:src="@{/js/jquery.unveil.min.js}"></script>
+		<script th:src="@{/js/jquery.superslides.min.js}"></script>
+		<script th:src="@{/js/jquery.fullPage.min.js}"></script>
+		<script th:src="@{/js/jquery.mixitup.js}"></script>
+		<script th:src="@{/js/main.js}"></script>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>为你所想</title>
+</head>
+<body>
+    <form action="/order.do?method=updateUserInfo" method="post">
+        姓名：<input type="text" class="form-control" id="uname" name="uname" value="${admin.uname}"><br>
+        Password:<input type="text" class="form-control" id="upwd" name="upwd" value="${admin.password}" ><br>
+        phone：<input type="text" class="form-control" id="uphone" value="${admin.phone}"><br>
+        address:<input type="text" class="form-control" id="address" value="${admin.address}"><br>
+        wallet:<input type="text" class="form-control" id="uwallet" value="${admin.wallet}"><br>
+        <button type="submit" class="update" >修改</button>
+    </form>
+</body>
+</html>

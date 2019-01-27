@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+    <script type="text/javascript" th:src="@{js/jquery-1.12.4.js}"></script>
+    <![endif]-->
+    <!--<script type="text/javascript">-->
+        <!--function search(currentPage) {-->
+            <!--var searchDate = $("serDate").val();-->
+            <!--var searchType=$("sertype option:selected").val();-->
+            <!--var searchName=$("sername").val();-->
+            <!--if(currentPage == null){-->
+                <!--var currentPage = $("#currentPage").val();-->
+            <!--}else{-->
+                 <!--var currentPage = currentPage;-->
+            <!--}-->
+            <!--$.ajax({-->
+                <!--url:"/productLists",-->
+                <!--data:{"serDate":searchDate,"sername":searchName,"sertype":searchType,"currentPage":currentPage},-->
+            <!--})-->
+        <!--}-->
+
+    <!--</script>-->
+</head>
+
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" action="/productList" method="post">
+            <input class="layui-input" placeholder="入库日" name="serDate" id="start" style="float: left">
+            <input type="text" name="sername"  placeholder="请输入商品名" autocomplete="off" class="layui-input" style="float: left">
+            <div style="float: left;">
+            <select  class="layui-input" placeholder="选择类型" name="sertype" id="sertype" >
+                <div th:each="type:${typeList}">
+                <option th:text="${type.categorysname}" th:value="${type.typeid}"></option>
+                </div>
+            </select>
+            </div>
+            <button class="layui-btn"  lay-submit="" lay-filter="sreach" style="float: left"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <!--<button class="layui-btn" th:onclick=""><i class="layui-icon"></i>添加</button>-->
+        <a href="/productadd?method=add" class="btn layui-btn">添加</a>
+        <span class="x-right" style="line-height:40px">共有数据：[[${pageInfo.total}]]</span>
+    </xblock>
+    <input type="hidden" id ="currentPage" name="currentPage" th:value="${pageInfo.pageNum}" >
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>选择</th>
+            <th hidden>ID</th>
+            <th>商品名称</th>
+            <th>商品类型</th>
+            <th>商品原价</th>
+            <th>折后价</th>
+            <th>加入时间</th>
+            <th>库存</th>
+            <th>热度</th>
+            <th>操作</th>
+        </thead>
+        <tbody>
+
+        <tr th:each="product: ${productList}">
+            <td>
+                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" th:data-id='${product.pid}'><i class="layui-icon">&#xe605;</i></div>
+            </td>
+            <td th:text="${product.pid}" hidden></td>
+            <td th:text="${product.pname}"></td>
+            <td th:if="${product.typeid==1}" th:text="办公"></td>
+            <td th:if="${product.typeid==2}" th:text="家居"></td>
+            <td th:if="${product.typeid==3}" th:text="旅行"></td>
+            <td th:if="${product.typeid==4}" th:text="数码"></td>
+            <td th:if="${product.typeid==5}" th:text="娱乐"></td>
+            <!--<td th:text="${product.typeid}"></td>-->
+            <td th:text="${product.pprice}"></td>
+            <td th:text="${product.disprice}"></td>
+            <td th:text="${product.rktime}"></td>
+            <td th:text="${product.pcounts}"></td>
+            <td th:text="${product.redu}"></td>
+            <td class="td-manage">
+                <a title="编辑" th:href="@{/updateProduct/}+${product.pid}">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" th:onclick="member_del(this,[[${product.pid}]])" th:href="@{/deleteProduct/}+${product.pid}">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form id="deleteForm" action="" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+    </form>
+</div>
+    <!--分页-->
+    <div th:fragment="pageNav(pageInfo)" class="page">
+        <div   class="dataTables_paginate paging_bootstrap pagination" >
+            <a th:if="${pageInfo.hasPreviousPage}" th:href="@{'?currentPageNum='+${pageInfo.prePage}}" class="num" >&lt;&lt;</a>
+            <!--<a th:if="${not pageInfo.hasPreviousPage}" class="num" >&lt;&lt;</a>-->
+
+            <!--pageInfo.navigatepageNums 所有的导航页号    pageInfo.pageNum  当前页数-->
+            <a th:each="nav : ${pageInfo.navigatepageNums}" th:class="${nav==pageInfo.pageNum}?'active':''" th:href="@{'?currentPageNum='+${nav}}" th:text="${nav}" class="current" th:name="currentPageNum"></a>
+            <!--<input type="text" th:name="currentPageNum" th:text="${pageInfo.pageNum}" hidden>-->
+            <a th:if="${pageInfo.hasNextPage}" th:href="@{'?currentPageNum='+${pageInfo.nextPage}}" class="num" >&gt;&gt;</a>
+            <!--<a th:if="${not pageInfo.hasNextPage}" class="num" >&gt;&gt;</a>-->
+
+            <!--<a th:href="@{/memberPageList/}+${p.firstPage}">首页</a>-->
+        </div>
+    </div>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+    });
+    //添加商品
+    // function x_admin_show() {
+    //     $.ajax({
+    //         url:"/adminadd?method=addindex",
+    //     });
+    //
+    // }
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        // layer.confirm('确认要删除吗？',function(index){
+        //     //发异步删除数据
+        //     $.ajax({
+        //         url:"/deleteProduct?method=delete",
+        //         data:{"pid":id,"currentPage":$("#currentPage").val()},
+        //     });
+            // $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+        // });
+    }
+
+
+
+    function delAll (argument) {
+
+        var datas = tableCheck.getData();
+        var pid = new Array();
+        layer.confirm('确认要删除吗？'+datas,function(index){
+            for (var i=0;i<datas.length;i++){
+                pid.push(datas[i])
+            }
+
+            //捉到所有被选中的，发异步进行删除
+            $.ajax({
+                type:"POST",
+                url:"/deleteProducts?method=delSelect",
+                data:{pid:pid,"currentPage":$("#currentPage").val()},
+            });
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+    }
+</script>
+<script>var _hmt = _hmt || []; (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();</script>
+</body>
+
+</html>

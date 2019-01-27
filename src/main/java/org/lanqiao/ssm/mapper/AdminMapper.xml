@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.ssm.mapper.DadminMapper">
+    <insert id="insertAdmin" parameterType="org.lanqiao.ssm.pojo.Dadminstrators">
+        insert into administrators (aid,aname,aphone,apassword,email,address) values (#{aid},#{aname},#{aphone},#{apassword},#{email},#{address})
+    </insert>
+
+    <select id="selectAdminAll" resultType="org.lanqiao.ssm.pojo.Dadminstrators">
+        select * from administrators
+        <where>
+        <if test="aname != null &amp;&amp; aname != ''">
+        and aname like concat ('%', #{aname}, '%')
+        </if>
+        </where>
+    </select>
+
+    <select id="selectAdminCount"  resultType="int">
+        select count(1) from administrators
+        <where>
+        <if test="aname != null &amp;&amp; aname != ''">
+        and aname like concat ('%', #{aname}, '%')
+        </if>
+        </where>
+    </select>
+
+    <delete id="deleteAdmintById" parameterType="int">
+        delete from administrators where aid = #{aid}
+    </delete>
+
+    <update id="updateAdminById" parameterType="org.lanqiao.ssm.pojo.Dadminstrators">
+        update administrators set aname=#{aname},aphone=#{aphone},apassword=#{apassword},email=#{email},address=#{address} where aid=#{aid}
+    </update>
+
+    <select id="selectAdminById" parameterType="int" resultType="org.lanqiao.ssm.pojo.Dadminstrators">
+        select * from administrators where aid=#{aid};
+    </select>
+
+    <select id="selectAdminByName" parameterType="String" resultType="org.lanqiao.ssm.pojo.Dadminstrators">
+         select * from administrators where aname=#{aname};
+    </select>
+</mapper>

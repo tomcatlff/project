@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.ssm.mapper.ManagetMapper">
+    <!--<select id="getUser"  resultType="org.lanqiao.springboot.pojo.UserInfo">-->
+        <!--select * from buser-->
+    <!--</select>-->
+    <!--<select id="selectOrder" resultType="org.lanqiao.springboot.pojo.CusOrder">-->
+        <!--select o.oid,cus.iname,cus.address,o.ostateid,o.pstateid,o.totalnum,o.totalprice,o.discount,o.totalprice_dis,o.createtime from orders o,custominfo cus -->
+    <!--</select>-->
+</mapper>

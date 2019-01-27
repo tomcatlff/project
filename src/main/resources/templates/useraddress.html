@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.png}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>收货地址</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/now-ui-dashboard.css}" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link th:href="@{/demo/demo.css}" rel="stylesheet" />
+    <script type="text/javascript">
+        var cityList = new Array();
+        var quList = new Array();
+        cityList['北京'] = [ '北京市' ];
+        cityList['天津'] = [ '天津市' ];
+        cityList['浙江'] = [ '杭州市', '温州市', '金华市', '临安市','宁波市','嘉兴市','湖州市','绍兴市','舟山市','台州市','丽水市'];
+        cityList['陕西'] = [ '西安市', '宝鸡市', '咸阳市','铜川市','渭南市','延安市','汉中市','榆林市','安康市','南洛市' ];
+        cityList['甘肃'] = [ '兰州市', '白银市','武威市', '酒泉市', '张掖市','嘉峪关市','金昌市','天水市','平凉市','庆阳市','定西市','陇南市','临夏回族自治州','甘南藏族自治州' ];
+        cityList['河北'] = [];
+        cityList['山西'] = [];
+        cityList['内蒙古'] = [];
+        cityList['辽宁'] = [];
+        cityList['吉林'] = [];
+        cityList['黑龙江'] = [];
+        cityList['上海'] = [];
+        cityList['江苏'] = [];
+        cityList['安徽'] = [];
+        cityList['福建'] = [];
+        cityList['江西'] = [];
+        cityList['山东'] = [];
+        cityList['河南'] = [];
+        cityList['湖北'] = [];
+        cityList['湖南'] = [];
+        cityList['广东'] = [];
+        cityList['广西'] = [];
+        cityList['海南'] = [];
+        cityList['重庆'] = [];
+        cityList['四川'] = [];
+        cityList['贵州'] = [];
+        cityList['云南'] = [];
+        cityList['西藏'] = [];
+        cityList['青海'] = [];
+        cityList['宁夏'] = [];
+        cityList['新疆'] = [];
+
+        quList['北京市'] = [ '东城区', '西城区', '崇文区', '宣武区','朝阳区','丰台区','石景山区','海淀区','门头沟区','房山区','通州区','顺义区','昌平区','大兴区','怀柔区','平谷区','密云区' ];
+        quList['天津市'] = [ '和平区', '河东区', '河西区', '南开区','河北区','红桥区','塘沽区','汉沽区','大港区','东丽区','西青区','津南区','北辰区','武清区','宝坻区','宁河县','静海县','蓟县','保税区','高新区','滨海新区' ];
+        quList['杭州市'] = [ '上城区', '下城区', '江干区', '拱墅区','西湖区','滨江区','萧山区','余杭区','桐庐县','淳安县','建德区','富阳区','临安区' ];
+        quList['温州市'] = [ '鹿城区', '龙湾区', '瓯海区', '洞头县','永嘉县','平阳县','苍南县','文成县','泰顺县','瑞安县','乐清县' ];
+
+        quList['西安市'] = [ '新城区', '碑林区', '莲湖区', '灞桥区','未央区','雁塔区','阎良区','临潼区','长安区','蓝田县','周至县','户县','高陵县','高新区' ];
+        quList['宝鸡市'] = [ '渭滨区', '金台区', '陈仓区', '凤翔县','岐山县','扶风县','眉县','陇县','千阳县','麟游县','凤县','太白县' ];
+        quList['兰州市'] = [ '城关区', '七里河区', '西固区', '安宁区','红古区','永登县','皋兰县','榆中县' ];
+        quList['白银市'] = [ '白银区', '平川区', '靖远县', '会宁县','景泰县' ];
+
+        window.onload = allData;
+        function allData() {
+            var shengfen = document.getElementById('shengfen');
+            for ( var sf in cityList) {
+                shengfen.add(new Option(sf, sf));
+            }
+
+        }
+        function changeCity() {
+
+            var chengshi = document.getElementById('chengshi');
+            var sheng = document.getElementById('shengfen').value;
+
+            chengshi.options.length = 1;
+            for ( var cs in cityList[sheng]) {
+                chengshi.add(new Option(cityList[sheng][cs], cityList[sheng][cs]));
+
+            }
+        }
+
+        function changequ() {
+            var shiqu = document.getElementById('shiqu');
+            var cheng = document.getElementById('chengshi').value;
+            shiqu.options.length = 1;
+            for ( var sh in quList[cheng]) {
+
+                shiqu.add(new Option(quList[cheng][sh], quList[cheng][sh]));
+
+            }
+
+        }
+    </script>
+</head>
+
+<body class="">
+    <div class="wrapper ">
+        <div class="sidebar" data-color="gray">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+            <div class="logo">
+
+                <a href="#" class="simple-text logo-normal" th:text="${session.name}"></a>
+
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li>
+                        <a href="/shopPage">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>返回商店</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/customsinfo">
+                            <i class="now-ui-icons education_atom"></i>
+                            <p>个人信息</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/customAdressPage">
+                            <i class="now-ui-icons location_map-big"></i>
+                            <p>收货地址</p>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/showOrders">
+                            <i class="now-ui-icons shopping_delivery-fast"></i>
+                            <p>订单信息</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/showWishList">
+                            <i class="now-ui-icons design_bullet-list-67"></i>
+                            <p>收藏夹</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/securityPage">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            <p>安全中心</p>
+                        </a>
+                    </li>
+
+                    <li class="active-pro">
+                        <a href="/tuichuPge" onclick="return confirm('你真的要离开我了吗？呜呜呜')">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                            <p>注销</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 90px">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="title">收货地址管理</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4" th:each="adress:${adressList}">
+                                        <form action="/updateAdress" method="post">
+                                            <div class="form-group">
+                                                <input hidden th:value="${adress.adressid}" name="adressid">
+                                                <label>收货人姓名:</label>
+                                                <input type="text" class="form-control" th:value="${adress.iname}" name="iname">
+                                            </div >
+                                            <div class="form-group">
+                                                <label>收货地址:</label>
+                                                <label th:text="${adress.quyu}"></label>
+                                                <input type="text" class="form-control" th:value="${adress.address}" name="address">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>联系电话:</label>
+                                                <input type="text" class="form-control phonetxt" th:value="${adress.shphone}" name="shphone">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-light chageBtn" value="修改"></input>
+                                                <a class="btn btn-danger shanchubtn" th:attr="del_uri=@{/addAdress/}+${adress.adressid}"><i class="now-ui-icons ui-1_simple-remove">删除</i></a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                            新增地址
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--模态框-->
+    <!-- Modal 添加 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增地址</h4>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/addAdress}" method="post" name="myform">
+                        <div>
+                            <div class="form-group">
+                                <label>收货人:</label>
+                                <input type="text" class="form-control" name="iname">
+                            </div>
+                            <div class="form-group">
+                                <label>联系电话:</label>
+                                <input id="txt" type="text" class="form-control" name="shphone" onblur="testPhone()">
+                            </div>
+                            <div class="form-group">
+                                <label>区域选择</label>
+                                <select id="shengfen"  style="width:100px" onchange="changeCity()" name="sheng"><option>--选择省份--</option></select>
+                                <select id="chengshi"  style="width:100px" onchange="changequ()" name="chengshi"><option>--选择城市--</option></select>
+                                <select id="shiqu"  style="width:100px" name="shiqu"><option>--选择区县--</option></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>收货地址:</label>
+                                <input type="text" class="form-control" name="address">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top: 20px;">取消</button>
+                            <input type="submit" class="btn btn-primary"  id="saveBtn"  value="保存"></input>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<!--删除用表单-->
+<form id="delForm" action="" method="post">
+    <input type="hidden" name="_method" value="delete"></input>
+</form>
+</body>
+<!--   Core JS Files   -->
+
+<script th:src="@{/js/core/jquery.min.js}"></script>
+<script th:src="@{/js/core/popper.min.js}"></script>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<script th:src="@{/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!--  Google Maps Plugin    -->
+
+<!-- Chart JS -->
+<script th:src="@{/js/plugins/chartjs.min.js}"></script>
+<!--  Notifications Plugin    -->
+<script th:src="@{/js/plugins/bootstrap-notify.js}"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script th:src="@{/js/now-ui-dashboard.js}"></script>
+<!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+<script th:src="@{/demo/demo.js}"></script>
+
+</html>
+<script type="text/javascript">
+    //状态修改的提交
+    $(".shanchubtn").click(function(){
+        if(confirm("确认删除吗？")){
+            // alert($(this).attr("del_uri"))
+            $("#delForm").attr("action",$(this).attr("del_uri")).submit();
+        }
+        return false;
+    })
+    //    手机号检验
+    // function testPhone(){
+    //     var filter=/^1[3|5|7|8|9][0-9]\d{4,8}$/;
+    //     // alert(filter.test(txt.value));
+    //     if (filter.test(txt.value)==true){
+    //         document.getElementById("saveBtn").disabled = false;
+    //     } else {
+    //         alert("不好意思您的手机号有误，请检查")
+    //         document.getElementById("saveBtn").disabled = true;
+    //     }
+    // }
+</script>
+<!--<script>-->
+    <!--$(".shanchubtn").click(function(){-->
+        <!--alert($(this).attr("del_uri"))-->
+        <!--$("#delForm").attr("action",$(this).attr("del_uri")).submit();-->
+    <!--});-->
+<!--</script>-->

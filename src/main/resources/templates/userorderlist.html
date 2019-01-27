@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="@{/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="@{/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>订单列表</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/now-ui-dashboard.css}" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link th:href="@{/demo/demo.css}" rel="stylesheet" />
+    <style type="text/css">
+        .demo { padding: 2em 0; background: #fff; }
+        a:hover, a:focus { outline: none; text-decoration: none; }
+        .tab .nav-tabs { border-bottom: none; position: relative; }
+        .tab .nav-tabs li { margin-right: 60px; z-index: 1; }
+        .tab .nav-tabs li:after { content: ""; width: 100%; border: 1px solid #ccc6c6; position: absolute; top: 50%; right: -60%; z-index: -1; }
+        .tab .nav-tabs li:last-child:after { border: none; }
+        .tab .nav-tabs li a { display: block; padding: 15px 20px; background: #fff; font-size: 15px; font-weight: 600; color: #956cae; text-transform: uppercase; border-radius: 0; margin-right: 0; border: 2px solid #956cae; position: relative; overflow: hidden; z-index: 1; transition: all 0.3s ease 0s; }
+        .tab .nav-tabs li.active a, .tab .nav-tabs li a:hover { color: #fff; border: 2px solid #956cae; }
+        .tab .nav-tabs li a:after { content: ""; display: block; width: 100%; height: 0; position: absolute; top: 0; left: 0; z-index: -1; transition: all 0.3s ease 0s; }
+        .tab .nav-tabs li.active a:after, .tab .nav-tabs li a:hover:after { height: 100%; background: #956cae; }
+        .tab .tab-content { padding: 20px 10px; margin-top: 0; font-size: 14px; color: #999; line-height: 26px; }
+        .tab .tab-content h3 { font-size: 24px; margin-top: 0; }
+
+        @media only screen and (max-width: 767px) {
+            .tab .nav-tabs li { margin: 0 25px 0 0; }
+        }
+
+        @media only screen and (max-width: 479px) {
+            .tab .nav-tabs li { width: 100%; text-align: center; margin: 0 0 0 0; }
+            .tab .nav-tabs li:after { width: 0; height: 100%; top: auto; bottom: -60%; right: 50%; }
+        }
+    </style>
+</head>
+
+<body >
+    <div class="wrapper ">
+        <div class="sidebar" data-color="gray">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+            <div class="logo">
+
+                <a href="#" class="simple-text logo-normal" th:text="${session.name}"></a>
+
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li>
+                        <a href="/shopPage">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>返回商店</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/customsinfo">
+                            <i class="now-ui-icons education_atom"></i>
+                            <p>个人信息</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/customAdressPage">
+                            <i class="now-ui-icons location_map-big"></i>
+                            <p>收货地址</p>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/showOrders">
+                            <i class="now-ui-icons shopping_delivery-fast"></i>
+                            <p>订单信息</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/showWishList">
+                            <i class="now-ui-icons design_bullet-list-67"></i>
+                            <p>收藏夹</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/securityPage">
+                            <i class="now-ui-icons ui-1_bell-53"></i>
+                            <p>安全中心</p>
+                        </a>
+                    </li>
+
+                    <li class="active-pro">
+                        <a href="/tuichuPge" onclick="return confirm('你真的要离开我了吗？呜呜呜')">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                            <p>注销</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel" style="background-color:#fff;">
+            <div class="demo">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top: 30px">
+                            <div class="tab" role="tabpanel">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist" style="margin-left: 10px">
+                                    <li role="presentation"><a href="#Section1" role="tab" data-toggle="tab">全部订单</a></li>
+                                    <li role="presentation"><a href="#Section2" role="tab" data-toggle="tab">未发货</a></li>
+                                    <li role="presentation"><a href="#Section3" role="tab" data-toggle="tab">待收货</a></li>
+                                    <li role="presentation"><a href="#Section6" role="tab" data-toggle="tab">已完成</a></li>
+                                    <li role="presentation"><a href="#Section7" role="tab" data-toggle="tab">已取消</a></li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content tabs">
+                                    <div role="tabpanel" class="tab-pane active" id="Section1">
+                                        <h3>全部订单</h3>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <td>订单编号</td>
+                                                <td>购买人姓名</td>
+                                                <td>收货人姓名</td>
+                                                <td>收货地址</td>
+                                                <td>下单时间</td>
+                                                <td>订单状态</td>
+                                                <td>是否收货</td>
+                                                <td>点击查看详情</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="order:${lCustomsOrdersList}">
+                                                <td th:text="${order.oid}"></td>
+                                                <td th:text="${order.cname}"></td>
+                                                <td th:text="${order.iname}"></td>
+                                                <td th:text="${order.address}"></td>
+                                                <td th:text="${order.createtime}"></td>
+                                                <td th:if="${order.ostateid==0}" th:text="未完成"></td>
+                                                <td th:if="${order.ostateid==1}" th:text="已完成"></td>
+                                                <td th:if="${order.ostateid==2}" th:text="已取消"></td>
+                                                <td th:if="${order.bstateid==0}" th:text="未发货"></td>
+                                                <td th:if="${order.bstateid==1}">
+                                                    <a th:href="@{/updataBstate/}+${order.oid}" th:text="确认收货" class="btn shouhuobtn" onclick="return foo();"></a></td>
+                                                <td th:if="${order.bstateid==2}" th:text="已收货"></td>
+                                                <td><a th:href="@{/showOrderInfoBy/}+${order.adressid}+'/'+${order.oid}"><i class="now-ui-icons gestures_tap-01"></i><i class="now-ui-icons ui-1_simple-delete"></i><i class="now-ui-icons arrows-1_minimal-right"></i></a></td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="Section2">
+                                        <h3>未发货</h3>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <td>订单编号</td>
+                                                <td>购买人姓名</td>
+                                                <td>收货人姓名</td>
+                                                <td>收货地址</td>
+                                                <td>下单时间</td>
+                                                <td>订单状态</td>
+                                                <td>是否收货</td>
+                                                <td>点击查看详情</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="order:${lCustomsOrdersList}" th:if="${order.bstateid==0}">
+                                                <td th:text="${order.oid}"></td>
+                                                <td th:text="${order.cname}"></td>
+                                                <td th:text="${order.iname}"></td>
+                                                <td th:text="${order.address}"></td>
+                                                <td th:text="${order.createtime}"></td>
+                                                <td th:if="${order.ostateid==0}" th:text="未完成"></td>
+                                                <td th:if="${order.ostateid==1}" th:text="已完成"></td>
+                                                <td th:if="${order.ostateid==2}" th:text="已取消"></td>
+                                                <td th:if="${order.bstateid==0}" th:text="未发货"></td>
+                                                <td th:if="${order.bstateid==1}">
+                                                    <a th:href="@{/updataBstate/}+${order.oid}" th:text="确认收货" class="btn shouhuobtn" onclick="return foo();"></a></td>
+                                                <td th:if="${order.bstateid==2}" th:text="已收货"></td>
+                                                <td><a th:href="@{/showOrderInfoBy/}+${order.adressid}+'/'+${order.oid}"><i class="now-ui-icons gestures_tap-01"></i><i class="now-ui-icons ui-1_simple-delete"></i><i class="now-ui-icons arrows-1_minimal-right"></i></a></td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="Section3">
+                                        <h3>待收货</h3>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <td>订单编号</td>
+                                                <td>购买人姓名</td>
+                                                <td>收货人姓名</td>
+                                                <td>收货地址</td>
+                                                <td>下单时间</td>
+                                                <td>订单状态</td>
+                                                <td>是否收货</td>
+                                                <td>点击查看详情</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="order:${lCustomsOrdersList}" th:if="${order.bstateid==1}">
+                                                <td th:text="${order.oid}"></td>
+                                                <td th:text="${order.cname}"></td>
+                                                <td th:text="${order.iname}"></td>
+                                                <td th:text="${order.address}"></td>
+                                                <td th:text="${order.createtime}"></td>
+                                                <td th:if="${order.ostateid==0}" th:text="未完成"></td>
+                                                <td th:if="${order.ostateid==1}" th:text="已完成"></td>
+                                                <td th:if="${order.ostateid==2}" th:text="已取消"></td>
+                                                <td th:if="${order.bstateid==0}" th:text="未发货"></td>
+                                                <td th:if="${order.bstateid==1}">
+                                                    <a th:href="@{/updataBstate/}+${order.oid}" th:text="确认收货" class="btn shouhuobtn" onclick="return foo();"></a></td>
+                                                <td th:if="${order.bstateid==2}" th:text="已收货"></td>
+                                                <td><a th:href="@{/showOrderInfoBy/}+${order.adressid}+'/'+${order.oid}"><i class="now-ui-icons gestures_tap-01"></i><i class="now-ui-icons ui-1_simple-delete"></i><i class="now-ui-icons arrows-1_minimal-right"></i></a></td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="Section6">
+                                        <h3>已完成</h3>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <td>订单编号</td>
+                                                <td>购买人姓名</td>
+                                                <td>收货人姓名</td>
+                                                <td>收货地址</td>
+                                                <td>下单时间</td>
+                                                <td>订单状态</td>
+                                                <td>是否收货</td>
+                                                <td>点击查看详情</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="order:${lCustomsOrdersList}" th:if="${order.bstateid==2}">
+                                                <td th:text="${order.oid}"></td>
+                                                <td th:text="${order.cname}"></td>
+                                                <td th:text="${order.iname}"></td>
+                                                <td th:text="${order.address}"></td>
+                                                <td th:text="${order.createtime}"></td>
+                                                <td th:if="${order.ostateid==0}" th:text="未完成"></td>
+                                                <td th:if="${order.ostateid==1}" th:text="已完成"></td>
+                                                <td th:if="${order.ostateid==2}" th:text="已取消"></td>
+                                                <td th:if="${order.bstateid==0}" th:text="未发货"></td>
+                                                <td th:if="${order.bstateid==1}">
+                                                    <a th:href="@{/updataBstate/}+${order.oid}" th:text="确认收货" class="btn shouhuobtn" onclick="return foo();"></a></td>
+                                                <td th:if="${order.bstateid==2}" th:text="已收货"></td>
+                                                <td><a th:href="@{/showOrderInfoBy/}+${order.adressid}+'/'+${order.oid}"><i class="now-ui-icons gestures_tap-01"></i><i class="now-ui-icons ui-1_simple-delete"></i><i class="now-ui-icons arrows-1_minimal-right"></i></a></td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="Section7">
+                                        <h3>已完成</h3>
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <td>订单编号</td>
+                                                <td>购买人姓名</td>
+                                                <td>收货人姓名</td>
+                                                <td>收货地址</td>
+                                                <td>下单时间</td>
+                                                <td>订单状态</td>
+                                                <td>是否收货</td>
+                                                <td>点击查看详情</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="order:${lCustomsOrdersList}" th:if="${order.ostateid==2}">
+                                                <td th:text="${order.oid}"></td>
+                                                <td th:text="${order.cname}"></td>
+                                                <td th:text="${order.iname}"></td>
+                                                <td th:text="${order.address}"></td>
+                                                <td th:text="${order.createtime}"></td>
+                                                <td th:if="${order.ostateid==0}" th:text="未完成"></td>
+                                                <td th:if="${order.ostateid==1}" th:text="已完成"></td>
+                                                <td th:if="${order.ostateid==2}" th:text="已取消"></td>
+                                                <td th:if="${order.bstateid==0}" th:text="未发货"></td>
+                                                <td th:if="${order.bstateid==1}">
+                                                    <a th:href="@{/updataBstate/}+${order.oid}" th:text="确认收货" class="btn shouhuobtn" onclick="return foo();"></a></td>
+                                                <td th:if="${order.bstateid==2}" th:text="已收货"></td>
+                                                <td><a th:href="@{/showOrderInfoBy/}+${order.adressid}+'/'+${order.oid}"><i class="now-ui-icons gestures_tap-01"></i><i class="now-ui-icons ui-1_simple-delete"></i><i class="now-ui-icons arrows-1_minimal-right"></i></a></td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<!--   Core JS Files   -->
+<script th:src="@{/js/core/jquery.min.js}"></script>
+<script th:src="@{/js/core/popper.min.js}"></script>
+<script th:src="@{/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/perfect-scrollbar.jquery.min.js}"></script>
+<!--  Google Maps Plugin    -->
+
+<!-- Chart JS -->
+<script th:src="@{/js/plugins/chartjs.min.js}"></script>
+<!--  Notifications Plugin    -->
+<script th:src="@{/js/plugins/bootstrap-notify.js}"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script th:src="@{/js/now-ui-dashboard.js}"></script>
+<!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+<script th:src="@{/demo/demo.js}"></script>
+
+<script type="text/javascript">
+        //状态修改的提交
+        function foo(){
+            if(confirm("确认收货吗？")){
+                return true;
+            }
+            return false;
+        }
+</script>
+
+
+</html>

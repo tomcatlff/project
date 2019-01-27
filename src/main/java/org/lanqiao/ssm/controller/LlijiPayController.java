@@ -25,6 +25,7 @@ public class LlijiPayController {
     @RequestMapping("msPay/{pid}")
     public String lijigoumia(@PathVariable int pid, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
+
         String cidStr = session.getAttribute("Cid").toString();
         int cid = Integer.parseInt(cidStr);
 //        int cid = 1;
